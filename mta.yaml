@@ -1,0 +1,57 @@
+ID: testMTA
+_schema-version: '2.1'
+parameters:
+  deploy_mode: html5-repo
+version: 0.0.1
+modules:
+  - name: testMTA_appRouter
+    type: approuter.nodejs
+    path: testMTA_appRouter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: testMTA_html5_repo_runtime
+      - name: uaa_testMTA
+  - name: testMTA_ui_deployer
+    type: com.sap.html5.application-content
+    path: testMTA_ui_deployer
+    requires:
+      - name: testMTA_html5_repo_host
+    build-parameters:
+      requires:
+        - name: ui5Test
+          artifacts:
+            - './*'
+          target-path: resources/ui5Test
+  - name: ui5Test
+    type: html5
+    path: ui5Test
+    build-parameters:
+      ignore:
+        - node_modules/
+      builder: grunt
+      supported-platforms: []
+      build-result: dist
+resources:
+  - name: testMTA_html5_repo_runtime
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: testMTA_html5_repo_host
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: uaa_testMTA
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.managed-service
+  - name: dest_testMTA
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.managed-service
