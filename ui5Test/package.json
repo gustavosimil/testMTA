@@ -1,11 +1,24 @@
 {
   "name": "ui5Test",
   "description": "",
+  "dependencies": {
+    "@openui5/sap.m": "1.73.1",
+    "@openui5/sap.ui.core": "1.73.1",
+    "@openui5/themelib_sap_belize": "1.73.1",
+    "shx": "^0.3.2"
+  },
   "devDependencies": {
-    "@sap/grunt-sapui5-bestpractice-build": "1.4.2",
-    "@sap/grunt-sapui5-bestpractice-test": "2.0.1"
+    "@ui5/cli": "^1.7.0",
+    "rimraf": "^2.7.1",
+    "mbt": "^0.3.2",
+    "serve": "^10.1.2"
   },
   "scripts": {
-    "test": "grunt unit_and_integration_tests"
+    "start": "ui5 serve",
+    "start:dist": "serve dist",
+    "build": "rimraf dist && ui5 build -a",
+    "sapbuild": "rimraf dist && ui5 build",
+    "build:ui": "rimraf dist && ui5 build --dest dist/webapp",
+    "build:mta": "npm run build:ui && shx cp -r testMTA_appRouter/. dist/ && mbt build -p=cf"
   }
 }

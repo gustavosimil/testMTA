@@ -30,7 +30,10 @@ modules:
     build-parameters:
       ignore:
         - node_modules/
-      builder: grunt
+      builder: custom
+      commands:
+        - rimraf dist
+        - ui5 build
       supported-platforms: []
       build-result: dist
 resources:

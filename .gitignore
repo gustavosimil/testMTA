@@ -122,3 +122,4 @@ APIExternalProducer.js
 /mta_archives/
 preview.json
 cp.project.properties.json
+testMTA_ui_deployer/resources/
